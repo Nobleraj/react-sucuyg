@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect, useLayoutEffect } from 'react';
 import './style.css';
 
 export default function App() {
@@ -15,8 +15,20 @@ const Comp = (props) => {
   const [val, setVal] = useState('');
   const [vall, setVall] = useState('');
 
+  const y = (val,v) => {
+   console.log(val,v);
+  }
+  useEffect(()=>{
+   y("useeffect",data.length);
+  },[data.length]);
+
+  useLayoutEffect(()=>{
+    y("useLayout",data.length);
+  },[data.length]);
+  
   return (
     <div>
+      <p>Length : {data.length}</p>
       <input
         value={val}
         onChange={(e) => setVal(e.target.value)}
@@ -42,7 +54,7 @@ const Comp = (props) => {
         <ul>
           {data.map((val,i) => {
             return (
-              <li>
+              <li key={i}>
                 {val.name} {val.age} <button onClick={()=>{
                   data.splice(i,1);
                   setData([...data]);
