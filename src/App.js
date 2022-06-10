@@ -1,13 +1,40 @@
-import React, { useState,useEffect, useLayoutEffect } from 'react';
+import React, { useRef,useState,useEffect, useLayoutEffect, useImperativeHandle } from 'react';
 import './style.css';
 
 export default function App() {
+  const inputRef = useRef();
+
+  const onFocus = () =>{
+    inputRef.current.demo(Math.random());
+  }
+
   return (
     <div>
       <Comp data={[]} />
+      <RefChild ref={inputRef}/>
+      <button onClick={onFocus}>Focus</button>
     </div>
   );
 }
+
+const RefChild = React.forwardRef((props,ref) => {
+  const demo = (a) =>{
+    alert(a);
+  }
+  useImperativeHandle(ref,()=>{
+    return{
+      demo(){
+        alert("2")
+      }
+    }
+  },[])
+  return(
+    <div>
+      Ref useImperativeHandle
+      <input ref={ref}/>
+    </div>
+  )
+})
 
 const Comp = (props) => {
   const array = props.data;
