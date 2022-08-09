@@ -1,4 +1,4 @@
-import React, { useRef,useState,useEffect, useLayoutEffect, useImperativeHandle } from 'react';
+import React, { useRef,useState,useEffect, useLayoutEffect, useImperativeHandle, useCallback } from 'react';
 import './style.css';
 
 export default function App() {
@@ -13,6 +13,8 @@ export default function App() {
       <Comp data={[]} />
       <RefChild ref={inputRef}/>
       <button onClick={onFocus}>Focus</button>
+
+      <Debounce/>
     </div>
   );
 }
@@ -113,3 +115,31 @@ const Comp = (props) => {
     </div>
   );
 };
+
+
+const Debounce = () => {
+
+  const debounce = (fn,delay) =>{
+     let timer;
+     return (...args)=>{
+       if(timer){
+         clearTimeout(timer);
+       }
+       timer = setTimeout(()=>{
+          fn(...args);
+       },delay);
+     }
+  }
+
+  const eventChange = (e) =>{
+    console.log(e.target.value);
+  }
+
+  const onChangeHandler = useCallback(debounce(eventChange,2000),[])
+
+  return(
+    <div>
+      <input onChange={onChangeHandler} placeholder="Enter"/>
+    </div>
+  )
+}
