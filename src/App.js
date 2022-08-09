@@ -38,40 +38,59 @@ const RefChild = React.forwardRef((props,ref) => {
 
 const Comp = (props) => {
   const array = props.data;
-  const [data, setData] = useState(array);
-  const [val, setVal] = useState('');
+  const [state, setState] = useState({
+    name : '', date : '', data : array
+  });
   const [vall, setVall] = useState('');
 
   const y = (val,v) => {
    console.log(val,v);
   }
   useEffect(()=>{
-   y("useeffect",data.length);
-  },[data.length]);
+   y("useeffect",state.data.length);
+  },[state.data.length]);
 
   useLayoutEffect(()=>{
-    y("useLayout",data.length);
-  },[data.length]);
+    y("useLayout",state.data.length);
+  },[state.data.length]);
   
+  const updateState = (newState) =>{
+     setState(prev=>{
+       return {...prev, ...newState}
+     })
+  }
+
+  const onChangeHandler = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    updateState({[ name ] : value });
+  }
+  const addHandler = () => {
+    let obj = { name : state.name, date : state.date}
+    let curr = [...state.data];
+    curr.push(obj);
+    updateState({ data : curr, name : '', date : '' })
+  }
+ console.log(state.data);
   return (
     <div>
-      <p>Length : {data.length}</p>
+      <p>Length : {state.data.length}</p>
       <input
-        value={val}
-        onChange={(e) => setVal(e.target.value)}
+        type="text"
+        name = "name"
+        value={state.name}
+        onChange={onChangeHandler}
         placeholder="Name"
       />
       <input
-        value={vall}
-        onChange={(e) => setVall(e.target.value)}
+        type="date"
+        name = "date"
+        value={state.date}
+        onChange={onChangeHandler}
         placeholder="Age"
       />
       <button
-        onClick={() => {
-          setData([...data, { name: val, age: vall }]);
-          setVal('');
-          setVall('');
-        }}
+        onClick={addHandler}
       >
         Add
       </button>
@@ -79,12 +98,12 @@ const Comp = (props) => {
       <div>
         <span>List</span>
         <ul>
-          {data.map((val,i) => {
+          {state.data.map((val,i) => {
             return (
               <li key={i}>
-                {val.name} {val.age} <button onClick={()=>{
-                  data.splice(i,1);
-                  setData([...data]);
+                {val.name} {val.date} <button onClick={()=>{
+                  state.data.splice(i,1);
+                  updateState({ data : state.data });
                 }}>Del</button>
               </li>
             );
