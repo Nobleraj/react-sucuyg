@@ -1,3 +1,28 @@
 h1, p {
   font-family: Lato;
 }
+
+.tabs-wrapper{
+  width : 200px;
+  display: flex;
+  justify-content: space-between;
+  color: white;
+}
+.clss1{
+  background-color: aqua;
+}
+
+.clss2{
+  background-color: bisque;
+}
+
+.clss3{
+  background-color: brown;
+}
+
+.tab-info{
+  width: 200px;
+  margin-top: 30px;
+  background-color: aquamarine;
+  color: black;
+}

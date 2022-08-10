@@ -15,6 +15,7 @@ export default function App() {
       <button onClick={onFocus}>Focus</button>
 
       <Debounce/>
+      <Tabs/>
     </div>
   );
 }
@@ -119,6 +120,8 @@ const Comp = (props) => {
 
 const Debounce = () => {
 
+  const [val,setVal] = useState("");
+
   const debounce = (fn,delay) =>{
      let timer;
      return (...args)=>{
@@ -141,5 +144,38 @@ const Debounce = () => {
     <div>
       <input onChange={onChangeHandler} placeholder="Enter"/>
     </div>
+  )
+}
+
+const Tabs = () => {
+  const [tab,setTab] = useState([
+    {id : 0, name : "A", value : ""},
+    {id : 1, name : "B", value : ""},
+    {id : 2, name : "C", value : ""}
+  ]);
+
+  const [active,setActive] = useState(0);
+
+  const onTabClick = (id)=>{
+    setActive(id);
+  }
+
+  const onChangeHandler = (e) =>{
+    let curr = [...tab];
+    curr[active].value = e.target.value;
+    setTab(curr);
+  }
+
+  return (
+    <div>
+
+     <div class="tabs-wrapper">
+       {tab.map(val=><button className={`clss${val.id}`} id={val.id} onClick={()=>onTabClick(val.id)}>{val.name}</button>)}
+     </div>
+
+     <div className="tab-info">{`You clicked ${tab[active].name}`}</div>
+
+     <input value={tab[active].value} onChange={onChangeHandler}/>
+     </div> 
   )
 }
