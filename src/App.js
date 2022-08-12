@@ -7,8 +7,8 @@ import React, {
   useCallback,
 } from 'react';
 import './style.css';
-import data from './data.js';
-import Folder from './Folder.js';
+import data from './data';
+import Folder from './Folder';
 
 export default function App() {
   const inputRef = useRef();
