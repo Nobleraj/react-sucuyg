@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import './style.css';
 import data from './data.js';
+import Folder from './Folder.js';
 
 export default function App() {
   const inputRef = useRef();
@@ -24,7 +25,7 @@ export default function App() {
 
       <Debounce />
       <Tabs />
-      <Accordin data={data} />
+      <Folder data={data} />
     </div>
   );
 }
@@ -199,29 +200,4 @@ const Tabs = () => {
       <input value={tab[active].value} onChange={onChangeHandler} />
     </div>
   );
-};
-
-const Accordin = ({ data }) => {
-  const [val, setVal] = useState(data);
-  const [expand, setExpand] = useState(false);
-
-  const checkIsFolder = (flag) => {};
-
-  if (data.isFolder) {
-    return (
-      <div>
-        {data.items.map((itm) => {
-          return (
-            <span style={{ display: 'block', padding: '5px' }}>{itm.name}</span>
-          );
-        })}
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <span>{data.name}</span>
-      </div>
-    );
-  }
 };
