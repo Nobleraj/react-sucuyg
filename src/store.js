@@ -1,8 +1,11 @@
-import { createStore, combineReducers } from 'redux';
-import loginReducer from './reducer.js'
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import loginReducer from './reducer.js';
+import thunk from 'redux-thunk';
 
-const reduders = combineReducers({
+const reducers = combineReducers({
   login : loginReducer
 });
 
-const store = createStore()
+const store = createStore(reducers, undefined,applyMiddleware(thunk));
+
+export default store;
