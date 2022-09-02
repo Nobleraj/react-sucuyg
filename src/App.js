@@ -20,9 +20,46 @@ export default function App() {
     inputRef.current.demo(Math.random());
   };
 
+  const [search, setSearch] = useState([
+    'hello',
+    'demo',
+    'ho',
+    'helefewf',
+    'hellwswso',
+    'tees',
+  ]);
+  const [dynamic, setDynamic] = useState([]);
+  const handlerSearch = (e) => {
+    const value = e.target.value;
+    let temp = [];
+    if (value.length) {
+      temp = search.filter((val) => {
+        return val.includes(value);
+      });
+    } else {
+      temp = [];
+    }
+    setDynamic([...temp]);
+  };
+  const debounce = (fn, delay) => {
+    let timer;
+    return (...args) => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => fn(...args), delay);
+    };
+  };
+  const handler = useCallback(debounce(handlerSearch, 1000), []);
   return (
     <div>
       {/* Counter using custom hook*/}
+
+      <input placeholder="search" onChange={handler} />
+      <div>
+        {dynamic.map((val) => (
+          <div key={val}>{val}</div>
+        ))}
+      </div>
+
       <h1>Counter : {count}</h1>
       <button onClick={increament}>Add</button>
 
