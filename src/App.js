@@ -9,8 +9,11 @@ import React, {
 import './style.css';
 import data from './data';
 import Folder from './Folder';
+import useCounter from './CustomHook';
 
 export default function App() {
+  const [count, increament] = useCounter(10);
+
   const inputRef = useRef();
 
   const onFocus = () => {
@@ -19,6 +22,10 @@ export default function App() {
 
   return (
     <div>
+      {/* Counter using custom hook*/}
+      <h1>Counter : {count}</h1>
+      <button onClick={increament}>Add</button>
+
       <Comp data={[]} />
       <RefChild ref={inputRef} />
       <button onClick={onFocus}>Focus</button>
